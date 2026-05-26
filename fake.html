@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL SYSTEM ERROR</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            border: 2px solid #ff3333;
+            padding: 30px;
+            background-color: rgba(20, 0, 0, 0.85);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #ff3333;
+            font-size: 2.2em;
+            text-align: center;
+            margin-top: 0;
+            letter-spacing: 2px;
+            animation: pulse 1s infinite alternate;
+        }
+
+        .warning-text {
+            text-align: center;
+            color: #ffffff;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            font-size: 3.5em;
+            color: #ff3333;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+        }
+
+        .log-box {
+            background-color: #000000;
+            border: 1px solid #333333;
+            height: 160px;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.85em;
+            color: #00ff00;
+            line-height: 1.5;
+            border-radius: 3px;
+        }
+
+        .log-line {
+            margin-bottom: 4px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚠️ CRITICAL ALERT: SYSTEM COMPROMISED ⚠️</h1>
+        <p class="warning-text">
+            당신의 Discord 계정 세션 및 IP 주소가 감지되었습니다.<br>
+            현재 페이지를 이탈하거나 브라우저를 종료할 시,<br>
+            <span style="color: #ff3333; font-weight: bold;">로컬 드라이브의 모든 데이터 인코딩(랜섬웨어)</span>이 즉시 시작됩니다.
+        </p>
+        
+        <div class="countdown" id="timer">00:30</div>
+        
+        <div class="log-box" id="log">
+            <div class="log-line" style="color: #ffaa00;">[INFO] Exploit sequence initiated via Discord Link...</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 카운트다운 기능
+        let timeLeft = 30;
+        const timerEl = document.getElementById('timer');
+        
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            let seconds = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+            timerEl.innerText = `00:${seconds}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                timerEl.innerText = "OVERRIDE";
+                timerEl.style.color = "#ff0000";
+            }
+        }, 1000);
+
+        // 2. 가짜 해킹 로그 실시간 출력 기능
+        const logEl = document.getElementById('log');
+        const fakeLogs = [
+            "[INFO] Target IP Address routing successful.",
+            "[INFO] Bypassing Windows Defender Real-time Protection...",
+            "[SUCCESS] Security token extracted from local storage.",
+            "[WARNING] Firewalls disabled successfully.",
+            "[INFO] Accessing directory: C:/Users/Administrator/AppData...",
+            "[PROGRESS] Indexing personal documents and files (12%)...",
+            "[INFO] Connecting to remote C&C Server [203.0.113.42]...",
+            "[SUCCESS] Secure handshake established. Cryptographic key loaded.",
+            "[READY] Waiting for user session termination to execute payload..."
+        ];
+        
+        let logIndex = 0;
+        const logInterval = setInterval(() => {
+            if (logIndex < fakeLogs.length) {
+                logEl.innerHTML += `<div class="log-line">${fakeLogs[logIndex]}</div>`;
+                logIndex++;
+                logEl.scrollTop = logEl.scrollHeight;
+            } else {
+                clearInterval(logInterval);
+                setInterval(() => {
+                    const folders = ['Desktop', 'Documents', 'Downloads', 'Pictures', 'Videos'];
+                    const randomFolder = folders[Math.floor(Math.random() * folders.length)];
+                    logEl.innerHTML += `<div class="log-line" style="color: #ff3333;">[ENCRYPTING] C:/Users/User/${randomFolder}/... Status: PENDING</div>`;
+                    logEl.scrollTop = logEl.scrollHeight;
+                }, 1200);
+            }
+        }, 1800);
+    </script>
+</body>
+</html>
